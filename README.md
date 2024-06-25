@@ -1,4 +1,4 @@
-# mdi-portal-lsm-study
+# react-mdi-portal
 
 MDI 포털 풀스택 구현 스터디
 
