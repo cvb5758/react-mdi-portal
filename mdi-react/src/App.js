@@ -12,6 +12,8 @@ function App() {
   const isLoggedIn = localStorage.getItem('token');
   const username = localStorage.getItem('username');
 
+  //test
+
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchPanels());
