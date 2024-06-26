@@ -8,13 +8,14 @@ import Box from '@mui/material/Box';
 import { logout } from '../features/auth/authSlice';
 import LoginModal from './modal/LoginModal';
 import Signup from './modal/Signup';
-import { savePanels } from '../features/panels/panelSlice';
 import { Snackbar, styled } from '@mui/material';
 import { Text } from '../style/CommonStyled';
+import { panelCommands } from '../util/panelCommands';
 
 const HeaderComponent = ({ isLoggedIn, username }) => {
   const dispatch = useDispatch();
   const panels = useSelector((state) => state.panel);
+  const commands = panelCommands(dispatch);
 
   const [loginOpen, setLoginOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
@@ -28,9 +29,8 @@ const HeaderComponent = ({ isLoggedIn, username }) => {
   };
 
   const handleSave = () => {
-    dispatch(savePanels(panels)).then(() => {
-      setSnackbarOpen(true);
-    });
+    commands.Save(panels);
+    setSnackbarOpen(true);
   };
 
   const handleCloseSnackbar = () => {

@@ -7,7 +7,7 @@ export const signUp = createAsyncThunk(
   async (authCredentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        'https://creepy-malia-mdi-portal-664f5777.koyeb.app/api/auth/signup',
+        'http://localhost:8000/api/auth/signup',
         authCredentials
       );
       return response.data;
@@ -23,7 +23,7 @@ export const signIn = createAsyncThunk(
   async (authCredentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        'https://creepy-malia-mdi-portal-664f5777.koyeb.app/auth/signin',
+        'http://localhost:8000/api/auth/signin',
         authCredentials
       );
       localStorage.setItem('token', response.data.accessToken);

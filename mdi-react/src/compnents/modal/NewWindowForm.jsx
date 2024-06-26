@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addPanel } from '../../features/panels/panelSlice';
 import {
   Button,
   Checkbox,
@@ -19,16 +18,20 @@ import {
   FormTextField,
 } from '../../style/FormStyled';
 import { CloseBox, HeaderText } from '../../style/CommonStyled';
+import { panelCommands } from '../../util/panelCommands';
 
 const NewWindowForm = ({ open, onClose }) => {
   const [title, setTitle] = useState('');
-  const [isBrowserChecked, setIsBrowserChecked] = useState(false);
-  const [isClockChecked, setIsClockChecked] = useState(false);
   const [content, setContent] = useState('');
   const [timezone, setTimezone] = useState('default');
-  const dispatch = useDispatch();
+
   const [titleLabelHidden, setTitleLabelHidden] = useState(false);
   const [urlLabelHidden, setUrlLabelHidden] = useState(false);
+  const [isBrowserChecked, setIsBrowserChecked] = useState(false);
+  const [isClockChecked, setIsClockChecked] = useState(false);
+
+  const dispatch = useDispatch();
+  const commands = panelCommands(dispatch);
 
   const handleFocus = (field) => {
     if (field === 'title') {
@@ -80,7 +83,7 @@ const NewWindowForm = ({ open, onClose }) => {
       order: Date.now(),
     };
 
-    dispatch(addPanel(windowData));
+    commands.Add(windowData);
     onClose();
   };
 

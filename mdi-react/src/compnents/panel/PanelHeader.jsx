@@ -1,38 +1,32 @@
 import { Box, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch } from 'react-redux';
-import { updatePanel } from '../../features/panels/panelSlice';
-
-// const TASK_LIST_HEIGHT = 40;
+import { panelCommands } from '../../util/panelCommands';
 
 const PanelHeader = ({ panel }) => {
   const dispatch = useDispatch();
+  const commands = panelCommands(dispatch);
 
   const handleMaximize = () => {
-    dispatch(
-      updatePanel({
-        ...panel,
-        isMaximized: !panel.isMaximized,
-        x: 0,
-        y: 0,
-        width: window.innerWidth,
-        height: window.innerHeight - 90,
-      })
-    );
-    console.log('maximize', window.innerHeight);
+    commands.Update({
+      ...panel,
+      isMaximized: !panel.isMaximized,
+      x: 0,
+      y: 0,
+      width: window.innerWidth,
+      height: window.innerHeight - 90,
+    });
   };
 
   const handleMinimize = () => {
-    dispatch(
-      updatePanel({
-        ...panel,
-        isHide: !panel.isHide,
-      })
-    );
+    commands.Update({
+      ...panel,
+      isHide: !panel.isHide,
+    });
   };
 
   const handleClose = () => {
-    dispatch(updatePanel({ ...panel, isClose: true }));
+    commands.Update({ ...panel, isClose: true });
   };
 
   return (

@@ -1,4 +1,3 @@
-// src/components/TaskList.js
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -14,20 +13,15 @@ import {
   styled,
   Modal,
 } from '@mui/material';
-import {
-  arrangePanelsGrid,
-  arrangePanelsStack,
-  hideAllPanels,
-  showAllPanels,
-  updatePanel,
-} from '../features/panels/panelSlice';
 import NewWindowForm from './modal/NewWindowForm';
+import { panelCommands } from '../util/panelCommands';
 
 function TaskList() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [newWindowOpen, setNewWindowOpen] = useState(false);
-  const dispatch = useDispatch();
   const tasks = useSelector((state) => state.panel);
+  const dispatch = useDispatch();
+  const commands = panelCommands(dispatch);
 
   const taskList = tasks
     .filter((task) => !task.isClose)
@@ -37,11 +31,6 @@ function TaskList() {
     setAnchorEl(e.currentTarget);
   };
 
-  const handleTaskClick = (task) => {
-    dispatch(updatePanel({ ...task, isHide: !task.isHide }));
-    console.log(task);
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -49,6 +38,14 @@ function TaskList() {
   const handleAddPanel = () => {
     setNewWindowOpen(true);
     handleClose();
+  };
+
+  const handleClick = (task) => {
+    if (task.isHide) {
+      commands.BringToFront(task.id);
+      commands.Update({ ...task, isHide: !task.isHide });
+    }
+    commands.Update({ ...task, isHide: !task.isHide });
   };
 
   const open = Boolean(anchorEl);
@@ -94,7 +91,7 @@ function TaskList() {
           </ListItem>
           {taskList.map((task) => (
             <ButtonGroup key={task.id} sx={{ width: 'auto' }}>
-              <TaskMenuButton onClick={() => handleTaskClick(task)}>
+              <TaskMenuButton onClick={() => handleClick(task)}>
                 {task.title}
               </TaskMenuButton>
             </ButtonGroup>
@@ -157,38 +154,10 @@ function TaskList() {
           }}
         >
           <PopoverMunu onClick={handleAddPanel}>새로운 윈도우</PopoverMunu>
-          <PopoverMunu
-            onClick={() => {
-              dispatch(hideAllPanels());
-              handleClose();
-            }}
-          >
-            모두 최소화
-          </PopoverMunu>
-          <PopoverMunu
-            onClick={() => {
-              dispatch(showAllPanels());
-              handleClose();
-            }}
-          >
-            전체 열기
-          </PopoverMunu>
-          <PopoverMunu
-            onClick={() => {
-              dispatch(arrangePanelsGrid());
-              handleClose();
-            }}
-          >
-            바둑판 정렬
-          </PopoverMunu>
-          <PopoverMunu
-            onClick={() => {
-              dispatch(arrangePanelsStack());
-              handleClose();
-            }}
-          >
-            스택 정렬
-          </PopoverMunu>
+          <PopoverMunu onClick={commands.HideAll}>모두 최소화</PopoverMunu>
+          <PopoverMunu onClick={commands.ShowAll}>전체 열기</PopoverMunu>
+          <PopoverMunu onClick={commands.GridSort}>바둑판 정렬</PopoverMunu>
+          <PopoverMunu onClick={commands.StackSort}>스택 정렬</PopoverMunu>
         </Popover>
       </Paper>
       <Modal open={newWindowOpen} onClose={() => setNewWindowOpen(false)}>

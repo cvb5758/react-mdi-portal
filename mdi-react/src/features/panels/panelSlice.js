@@ -6,7 +6,7 @@ export const savePanels = createAsyncThunk(
   async (panels, thunkAPI) => {
     try {
       const response = await axios.post(
-        'https://creepy-malia-mdi-portal-664f5777.koyeb.app/api/panels/save',
+        'http://localhost:8000/api/panels/save',
         panels,
         {
           headers: {
@@ -25,14 +25,11 @@ export const fetchPanels = createAsyncThunk(
   'panels/fetchPanels',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(
-        'https://creepy-malia-mdi-portal-664f5777.koyeb.app/api/panels',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
+      const response = await axios.get('http://localhost:8000/api/panels', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       response.data.sort((a, b) => a.order - b.order);
       return response.data;
     } catch (error) {
