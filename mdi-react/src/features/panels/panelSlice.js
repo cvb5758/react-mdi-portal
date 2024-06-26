@@ -65,7 +65,10 @@ export const panelSlice = createSlice({
       }
     },
     arrangePanelsGrid: (state) => {
-      const numPanels = state.length;
+      const visiblePanels = state.filter(
+        (panel) => !panel.isHide && !panel.isClose
+      );
+      const numPanels = visiblePanels.length;
       const numCols = Math.ceil(Math.sqrt(numPanels));
       const numRows = Math.ceil(numPanels / numCols);
       const panelWidth = window.innerWidth / numCols;
@@ -77,7 +80,7 @@ export const panelSlice = createSlice({
       let topOffset = 0;
       let col = 0;
 
-      state.forEach((panel) => {
+      visiblePanels.forEach((panel) => {
         panel.width = panelWidth;
         panel.height = panelHeight;
         panel.x = leftOffset;
@@ -94,6 +97,9 @@ export const panelSlice = createSlice({
       });
     },
     arrangePanelsStack: (state) => {
+      const visiblePanels = state.filter(
+        (panel) => !panel.isHide && !panel.isClose
+      );
       const stackOffset = 20;
       const mainWidth = window.innerWidth;
       const mainHeight = window.innerHeight;
@@ -104,7 +110,7 @@ export const panelSlice = createSlice({
       const startX = (mainWidth - panelWidth) / 4;
       const startY = (mainHeight - panelHeight) / 4;
 
-      state.forEach((panel, index) => {
+      visiblePanels.forEach((panel, index) => {
         panel.width = panelWidth;
         panel.height = panelHeight;
         panel.x = startX + index * stackOffset;
