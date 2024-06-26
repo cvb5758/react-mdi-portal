@@ -25,7 +25,7 @@ function TaskList() {
 
   const taskList = tasks
     .filter((task) => !task.isClose)
-    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    .sort((a, b) => a.id - b.id);
 
   const handleMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
