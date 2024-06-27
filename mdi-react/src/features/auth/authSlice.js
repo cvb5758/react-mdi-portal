@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// 회원가입 Thunk
 export const signUp = createAsyncThunk(
   'auth/signUp',
   async (authCredentials, thunkAPI) => {
@@ -17,13 +16,12 @@ export const signUp = createAsyncThunk(
   }
 );
 
-// 로그인 Thunk
 export const signIn = createAsyncThunk(
   'auth/signIn',
   async (authCredentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/auth/signin',
+        'https://creepy-malia-mdi-portal-664f5777.koyeb.app/api/auth/signin',
         authCredentials
       );
       localStorage.setItem('token', response.data.accessToken);
