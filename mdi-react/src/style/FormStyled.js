@@ -58,6 +58,13 @@ export const FormTextField = styled(TextField)({
 
 export const FormSelectField = styled(Select)({
   margin: '0',
+  '& .MuiSelect-select': {
+    fontSize: '1.4rem',
+    height: '2rem',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '1rem',
+  },
 });
 
 export const FormTextBox = styled(Box)({

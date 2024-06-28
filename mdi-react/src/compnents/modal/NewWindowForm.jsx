@@ -212,16 +212,7 @@ const NewWindowForm = ({ open, onClose }) => {
               onChange={(e) => setTimezone(e.target.value)}
               fullWidth
               disabled={!isClockChecked}
-              sx={{
-                backgroundColor: isClockChecked ? '#ffffff' : '#F4F4F4',
-                '& .MuiSelect-select': {
-                  fontSize: '1.4rem',
-                  height: '2rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '1rem',
-                },
-              }}
+              sx={{ backgroundColor: isClockChecked ? '#ffffff' : '#F4F4F4' }}
             >
               <MenuItems value="default">도시를 선택해주세요.</MenuItems>
               <MenuItems value="Asia/Seoul">Seoul (UTC+09:00)</MenuItems>
