@@ -1,0 +1,18 @@
+{
+  "name": "mdi-react",
+  "version": "0.1.0",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"npm --prefix mdi-react start\" \"npm:electron\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "electron": "^13.1.7",
+    "wait-on": "^7.2.0"
+  }
+}

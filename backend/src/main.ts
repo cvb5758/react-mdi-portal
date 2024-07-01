@@ -18,10 +18,11 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: 'https://react-mdi-portal.vercel.app',
+    origin: ['http://localhost:3000', 'https://react-mdi-portal.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
+
   await app.listen(8000);
 }
 bootstrap();
