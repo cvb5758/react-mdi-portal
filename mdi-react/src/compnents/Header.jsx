@@ -166,6 +166,7 @@ const SaveBox = styled(Button)({
   minWidth: 'auto',
   minHeight: 'auto',
   marginLeft: '2rem',
+  borderRadius: '0',
 
   '&: hover': {
     backgroundColor: '#111',
