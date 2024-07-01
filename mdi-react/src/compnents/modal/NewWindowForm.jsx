@@ -29,6 +29,7 @@ const NewWindowForm = ({ open, onClose }) => {
   const [urlLabelHidden, setUrlLabelHidden] = useState(false);
   const [isBrowserChecked, setIsBrowserChecked] = useState(false);
   const [isClockChecked, setIsClockChecked] = useState(false);
+  const [urlError, setUrlError] = useState(false);
 
   const dispatch = useDispatch();
   const commands = panelCommands(dispatch);
@@ -49,6 +50,19 @@ const NewWindowForm = ({ open, onClose }) => {
     }
   };
 
+  const validateUrl = (url) => {
+    const urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    );
+    return !!urlPattern.test(url);
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -62,8 +76,13 @@ const NewWindowForm = ({ open, onClose }) => {
       return;
     }
 
+    if (isBrowserChecked && !validateUrl(content)) {
+      setUrlError(true);
+      return;
+    }
+
     const windowData = {
-      id: `temp-${Date.now()}`,
+      id: Date.now(),
       width: 400,
       height: 300,
       x: 0,
@@ -98,6 +117,13 @@ const NewWindowForm = ({ open, onClose }) => {
     setIsClockChecked(!isClockChecked);
     if (isBrowserChecked) {
       setIsBrowserChecked(false);
+    }
+  };
+
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+    if (urlError && validateUrl(e.target.value)) {
+      setUrlError(false);
     }
   };
 
@@ -175,6 +201,7 @@ const NewWindowForm = ({ open, onClose }) => {
               value={content}
               fullWidth
               required={isBrowserChecked}
+              error={urlError}
               disabled={!isBrowserChecked}
               sx={{
                 '& .MuiInputBase-root': {
@@ -189,7 +216,7 @@ const NewWindowForm = ({ open, onClose }) => {
               }}
               onFocus={() => handleFocus('content')}
               onBlur={() => handleBlur('content')}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={handleContentChange}
             />
           </FormTextBox>
           <FormCheckLabel
